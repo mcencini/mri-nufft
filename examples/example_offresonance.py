@@ -21,7 +21,7 @@ plt.rcParams["image.cmap"] = "gray"
 # %%
 # Data Generation
 # ===============
-# For realistic 2D image we will use a slice from the brainweb dataset.
+# For realistic 2D image we will use a slice from the brainweb dataset,
 # installable using ``pip install brainweb-dl``
 
 from brainweb_dl import get_mri
@@ -42,7 +42,7 @@ plt.imshow(brain_mask), plt.axis("off"), plt.title("brain mask")
 
 # %%
 # Field Generation
-# ===============
+# ================
 # Here, we generate a radial B0 field with the same shape of
 # the input Shepp-Logan phantom
 
@@ -56,7 +56,9 @@ plt.imshow(brain_mask * b0map, cmap="bwr", vmin=-200, vmax=200), plt.axis(
 
 # %%
 # Generate a Spiral trajectory
-# ----------------------------
+# ============================
+# We use a 2D spiral trajectory
+# with a readout time of 6 ms:
 
 from mrinufft import initialize_2D_spiral
 from mrinufft.density import voronoi
@@ -74,11 +76,10 @@ display_2D_trajectory(samples)
 # ==================
 
 from mrinufft import get_operator
-from mrinufft.operators.off_resonance import MRIFourierCorrected
+from mrinufft.operators import MRIFourierCorrected
 
 # Generate standard NUFFT operator
-NufftOperator = get_operator("finufft")
-nufft = NufftOperator(
+nufft = get_operator("finufft")(
     samples=samples,
     shape=mri_data.shape,
     density=density,
@@ -89,8 +90,17 @@ mfi_nufft = MRIFourierCorrected(
     nufft, fieldmap=b0map, readout_time=t_read, mask=brain_mask
 )
 
-# Generate K-Space
+# %% Generate K-Space
+# ===================
+# We generate the k-space data using the expanded model.
+
 kspace = mfi_nufft.op(mri_data)
+
+# %% Image reconstruction
+# ======================)
+# We now reconstruct using
+# both the standard operator
+# and the expanded model.
 
 # Reconstruct without field correction
 mri_data_adj = nufft.adj_op(kspace)

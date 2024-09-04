@@ -11,6 +11,7 @@ from .base import (
     check_backend,
 )
 from .off_resonance import MRIFourierCorrected, get_interpolators_from_fieldmap
+from .subspace import MRISubspace
 from .stacked import MRIStackedNUFFT
 
 #
@@ -24,6 +25,7 @@ for _, name, _ in pkgutil.iter_modules([str(Path(__file__).parent / "interfaces"
 __all__ = [
     "FourierOperatorBase",
     "MRIFourierCorrected",
+    "MRISubspace",
     "MRIStackedNUFFT",
     "check_backend",
     "get_operator",

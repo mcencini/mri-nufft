@@ -159,7 +159,7 @@ class MRITorchKbNufft(FourierOperatorBase):
 
         if self.smaps is not None:
             self.smaps = self.smaps.to(coeffs.dtype, copy=False)
-        if self.density:
+        if self.density.any():
             coeffs = coeffs * self.density
 
         img = self._tkb_adj_op.forward(

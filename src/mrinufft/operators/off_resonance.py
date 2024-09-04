@@ -174,7 +174,7 @@ class MRIFourierCorrected(FourierOperatorBase):
         If ``zmap`` is real, assume ``zmap = B0_map``.
         Also supports Cupy arrays and Torch tensors.
         Expected shape is ``(nz, ny, nx)``.
-    readout_time : np.ndarray or GPUarray, optional
+    readout_time : np.ndarray, optional
         Readout time in ``[s]`` of shape ``(nshots, npts)`` or ``(nshots * npts,)``.
         Also supports Cupy arrays and Torch tensors.
     n_time_segments : int, optional
@@ -183,7 +183,7 @@ class MRIFourierCorrected(FourierOperatorBase):
         Number of histogram bins to use for ``(B0, T2*)``. The default is ``(40, 10)``
         If it is a scalar, assume ``n_bins = (n_bins, 10)``.
         For real fieldmap (B0 only), ``n_bins[1]`` is ignored.
-    mask : np.ndarray or GPUarray, optional
+    mask : np.ndarray, optional
         Boolean mask to avoid histogram of background values.
         The default is ``None`` (use the whole map).
         Also supports Cupy arrays and Torch tensors.
@@ -243,13 +243,13 @@ class MRIFourierCorrected(FourierOperatorBase):
 
         Parameters
         ----------
-        x: numpy.ndarray or cupy.ndarray
+        data: numpy.ndarray or cupy.ndarray
             N-D input image
 
         Returns
         -------
         numpy.ndarray or cupy.ndarray
-            masked distorded N-D k-space
+            masked distorted N-D k-space
         """
         y = 0.0
         data_d = self.xp.asarray(data)
@@ -264,8 +264,8 @@ class MRIFourierCorrected(FourierOperatorBase):
 
         Parameters
         ----------
-        x: numpy.ndarray or cupy.ndarray
-            masked distorded N-D k-space
+        coeffs: numpy.ndarray or cupy.ndarray
+            masked distorted N-D k-space
 
         Returns
         -------
