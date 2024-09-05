@@ -87,7 +87,7 @@ nufft = get_operator("finufft")(
 
 # Generate Fourier Corrected operator
 mfi_nufft = MRIFourierCorrected(
-    nufft, fieldmap=b0map, readout_time=t_read, mask=brain_mask
+    nufft, b0_map=b0map, readout_time=t_read, mask=brain_mask
 )
 
 # %% Generate K-Space
